@@ -1,0 +1,33 @@
+package com.example.demo.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.demo.entity.Dskh;
+import com.example.demo.entity.Kdgsdzd;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Mapper
+@Repository
+public interface KdgsdzdMapper extends BaseMapper<Kdgsdzd> {
+
+    @Select("select kd.drriqi,kd.drkhmc,kd.drdsje,kd.drkddh,kd.drkdf,xiaoshoudan as xsd,kuaidigongsiduizhangdan as kd")
+    List<Kdgsdzd> getList();
+
+//    @Select("select drriqi,drkhmc,drdsje,drkddh,drkdf from kuaidigongsiduizhangdan")
+//    List<Kdgsdzd> getDrList();
+
+    @Select("select * from kuaidigongsiduizhangdan where drkhmc like '%'+#{drkhmc}+'%' and drkddh like '%''+#{drkddh}+%'")
+    List<Kdgsdzd> queryList(String drkhmc,String drkddh);
+
+//    @Update("update kuaidigongsiduizhangdan set riqi = #{riqi},khmc = #{khmc},dsje = #{dsje},kddh = #{kddh},kdf = #{kdf} where id = #{id}")
+//    boolean update(String riqi,String khmc,String dsje,String kddh,String kdf,int id);
+
+    @Delete("delete from kuaidigongsiduizhangdan where id=#{id}")
+    boolean delete(int id);
+
+//    @Insert("insert into kuaidigongsiduizhangdan(riqi,khmc,dsje,kddh,ksd) values(#{riqi},#{khmc},#{dsje},#{kddh},#{kdf})")
+//    boolean add(String riqi,String khmc,String dsje,String kddh,String kdf);
+
+}
