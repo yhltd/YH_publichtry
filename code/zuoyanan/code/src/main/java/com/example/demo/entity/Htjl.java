@@ -1,9 +1,13 @@
 package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
+import javax.persistence.Column;
+
 @Data
 @TableName("hetong_jilu")
 public class Htjl {
@@ -111,87 +115,108 @@ public class Htjl {
     /**
      * 外委单价
      */
-    private String AA;
+    @TableField("AA")
+    private String aa;
     /**
      * 镗工时/73
      */
-    private String AB;
+    @TableField("AB")
+    private String ab;
     /**
      * 镗单价
      */
-    private String AC;
+    @TableField("AC")
+    private String ac;
     /**
      * 割工时/24
      */
-    private String AD;
+    @TableField("AD")
+    private String ad;
 
     /**
      * 割单价
      */
-    private String AE;
+    @TableField("AE")
+    private String ae;
     /**
      * 磨工时/42
      */
-    private String AF;
+    @TableField("AF")
+    private String af;
     /**
      * 磨单价
      */
-    private String AG;
+    @TableField("AG")
+    private String ag;
     /**
      * 数控铣工时/69
      */
-    private String AH;
+    @TableField("AH")
+    private String ah;
     /**
      * 数控铣单价
      */
-    private String AI;
+    @TableField("AI")
+    private String ai;
 
     /**
      * 立车/71
      */
-    private String AJ;
+    @TableField("AJ")
+    private String aj;
     /**
      * 立车单价
      */
-    private String AK;
+    @TableField("AK")
+    private String ak;
     /**
      * 电火花/42
      */
-    private String AL;
+    @TableField("AL")
+    private String al;
     /**
      * 电火花单价
      */
-    private String AM;
+    @TableField("AM")
+    private String am;
     /**
      * 中走私/38
      */
-    private String AN;
+    @TableField("AN")
+    private String an;
 
     /**
      * 中走丝单价
      */
-    private String AO;
+    @TableField("AO")
+    private String ao;
     /**
      * 下料
      */
-    private String AP;
+    @TableField("AP")
+    private String ap;
     /**
      * 深孔钻
      */
-    private String AQ;
+    @TableField("AQ")
+    private String aq;
     /**
      * 回厂日期
      */
-    private String AR;
+    @TableField("AR")
+    private String ar;
     /**
      * 出厂日期
      */
-    private String AS;
+//    @Column(name = "`AS`")
+    @TableField("ASS")
+    private String ass;
 
     /**
      * 订单要求交货时间
      */
-    private String AT;
+    @TableField("AT")
+    private String at;
     /**
      * 铣
      */
@@ -199,13 +224,16 @@ public class Htjl {
     /**
      * 车
      */
-    private String AU;
+    @TableField("AU")
+    private String au;
     /**
      * 登记员
      */
-    private String AV;
+    @TableField("AV")
+    private String av;
     /**
      * 备注
      */
-    private String AW;
+    @TableField("AW")
+    private String aw;
 }

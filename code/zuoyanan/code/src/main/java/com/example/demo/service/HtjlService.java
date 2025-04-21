@@ -13,7 +13,10 @@ public interface HtjlService extends IService<Htjl> {
      * 查询所有
      */
     List<Htjl> getList();
-
+//    刷新
+    List<Htjl> refresh();
+//    按月刷新
+    List<Htjl> month();
     /**
      * 根据姓名和部门查询
      */
@@ -23,6 +26,8 @@ public interface HtjlService extends IService<Htjl> {
 //     * 修改
 //     */
    boolean update(Htjl Htjl);
+//   计算
+   boolean jisuan();
 
     /**
      * 删除

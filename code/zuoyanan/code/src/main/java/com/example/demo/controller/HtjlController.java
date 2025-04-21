@@ -42,7 +42,30 @@ public class HtjlController {
             return ResultInfo.error("错误!");
         }
     }
+    @RequestMapping("/refresh")
+    public ResultInfo refresh(){
+        try {
+            List<Htjl> refresh=htjlService.refresh();
+            return  ResultInfo.success("获取成功",refresh);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}",e.getMessage());
+            return ResultInfo.error("错误！");
+        }
 
+    }
+    @RequestMapping("/month")
+    public ResultInfo month(){
+        try {
+            List<Htjl> month=htjlService.month();
+            return  ResultInfo.success("获取成功",month);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}",e.getMessage());
+            return ResultInfo.error("错误！");
+        }
+
+    }
     /**
      * 根据姓名和部门查询
      *
@@ -86,6 +109,7 @@ public class HtjlController {
         }
     }
 
+
     /**
      * 添加
      */
@@ -109,6 +133,23 @@ public class HtjlController {
             log.error("添加失败：{}", e.getMessage());
             log.error("参数：{}", map);
             return ResultInfo.error("添加失败");
+        }
+    }
+//    计算
+    @RequestMapping("/jisuan")
+    public ResultInfo jisuan() {
+        try {
+
+            if (htjlService.jisuan()) {
+                return ResultInfo.success("计算成功");
+            } else {
+                return ResultInfo.success("计算失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("计算失败：{}", e.getMessage());
+//            log.error("参数：{}", userInfo);
+            return ResultInfo.error("计算失败");
         }
     }
 

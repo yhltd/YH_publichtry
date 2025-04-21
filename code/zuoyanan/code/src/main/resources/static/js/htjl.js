@@ -1,9 +1,41 @@
 var idd;
+var shuju;
 function getList() {
     $('#gsm').val("");
     $ajax({
         type: 'post',
         url: '/htjl/getList',
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            idd=res.data.length;
+            setTable(res.data);
+            $("#HtjlTable").colResizable({
+                liveDrag: true,
+                gripInnerHtml: "<div class='grip'></div>",
+                draggingClass: "dragging",
+                resizeMode: 'fit',
+            });
+            // for (i=0;i<=res.data.id;i++){
+            //     idd=i;
+            //     alert(i)
+            // }
+            // if (res.code == 200) {
+            //     // for (var i = 0; i < res.data.length; i++) {
+            //     //     // $("#add-shdw").append("<option>" + res.data[i].gsm + "</option>");
+            //     //     // $("#update-shdw").append("<option>" + res.data[i].gsm + "</option>");
+            //     //     idd=i;
+            //     // }
+            // }
+
+        }
+    })
+
+}
+function refresh(){
+    $('#gsm').val("");
+    $ajax({
+        type: 'post',
+        url: '/htjl/refresh',
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
@@ -13,13 +45,12 @@ function getList() {
                 draggingClass: "dragging",
                 resizeMode: 'fit'
             });
-            for (i=0;i<=res.data.id;i++){
-                idd=i;
-            }
+            // for (i=0;i<=res.data.id;i++){
+            //     idd=i;
+            // }
         }
     })
 }
-
 $(function () {
     getList();
 
@@ -51,7 +82,7 @@ $(function () {
 
     //刷新
     $("#refresh-btn").click(function () {
-        getList();
+        refresh();
     });
 
     //点击新增按钮显示弹窗
@@ -81,6 +112,26 @@ $(function () {
                     swal("", res.msg, "success");
                     $('#add-form')[0].reset();
                     getList();
+                    $('#add-close-btn').click();
+                }
+            })
+        }
+    });
+    $("#add1-submit-btn").click(function () {
+        let params = formToJson("#add-form");
+        if (checkForm('#add-form')) {
+            $ajax({
+                type: 'post',
+                url: '/htjl/add',
+                data: JSON.stringify({
+                    addInfo: params
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                if (res.code == 200) {
+                    swal("", res.msg, "success");
+                    $('#add-form')[0].reset();
                     $('#add-close-btn').click();
                 }
             })
@@ -212,340 +263,107 @@ $(function () {
             })
         }
     })
+    $('#jinshanchu-btn').click(function () {
+        var msg = confirm("确认要删除吗？");
+        if (msg) {
+            let rows = getTableSelection("#HtjlTable");
+            if (rows.length == 0) {
+                swal('请选择要删除的数据！');
+                return;
+            }
+            let idList = [];
+            $.each(rows, function (index, row) {
+                idList.push(row.data.id)
+            });
+            $ajax({
+                type: 'post',
+                url: '/htjl/delete',
+                data: JSON.stringify({
+                    idList: idList
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                if (res.code == 200) {
+                    swal("", res.msg, "success");
+                } else {
+                    swal("", res.msg, "error");
+                }
+            })
+        }
+    })
+
+    $('#month-btn').click(function () {
+        $('#gsm').val("");
+        $ajax({
+            type: 'post',
+            url: '/htjl/month',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                setTable(res.data);
+                $("#HtjlTable").colResizable({
+                    liveDrag: true,
+                    gripInnerHtml: "<div class='grip'></div>",
+                    draggingClass: "dragging",
+                    resizeMode: 'fit'
+                });
+                // for (i=0;i<=res.data.id;i++){
+                //     idd=i;
+                // }
+            }
+        })
+    });
+
+    $('#jisuan-btn').click(function () {
+        $('#gsm').val("");
+        $ajax({
+            type: 'post',
+            url: '/htjl/jisuan',
+        }, false, '', function (res) {
+            alert(res.code );
+            if (res.code == 200) {
+                setTable(res.data);
+                swal("", res.msg, "success");
+                getList();
+            } else {
+                swal("", res.msg, "error");
+            }
+        })
+//         var targetTitle=0;
+//         var options = $('#HtjlTable').bootstrapTable('getOptions');
+//         alert(options);
+// // 遍历columns数组查找目标列
+//         if (options && options.columns) {
+//             alert(1)
+//             options.columns.forEach(function(column) {
+//                 if (column.field === 's') {
+//                     alert(111111)
+//                     targetTitle =column.title;
+//                     return; // 找到后退出循环
+//                 }
+//             });
+//         }
+//         console.log(targetTitle); // 输出：'合同号'
+//        alert(targetTitle);
+//        // for(i=0;i<$('#'))
+//         alert(idd);
+//         var hang;
+//         for(i=0;i<=idd;i++){
+//           hang=shuju[i];
+//         }
+//         alert(hang)
+    });
+
+
+
 });
 
-// function setTable(data) {
-//     if ($('#HtjlTable').html != '') {
-//         $('#HtjlTable').bootstrapTable('load', data);
-//     }
-//
-//     $('#HtjlTable').bootstrapTable({
-//         data: data,
-//         sortStable: true,
-//         classes: 'table table-hover text-nowrap table table-bordered',
-//         idField: 'id',
-//         pagination: true,
-//         pageSize: 15,//单页记录数
-//         clickToSelect: true,
-//         locale: 'zh-CN',
-//         toolbar: '#table-toolbar',
-//         toolbarAlign: 'left',
-//         theadClasses: "thead-light",//这里设置表头样式
-//         style:'table-layout:fixed',
-//         columns: [
-//             {
-//                 field: '',
-//                 title: '序号',
-//                 align: 'center',
-//                 width: 50,
-//                 formatter: function (value, row, index) {
-//                     return index + 1;
-//                 }
-//             }, {
-//                 field: 'ywdw',
-//                 title: '业务单位',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'hth',
-//                 title: '合同号',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 150,
-//             }, {
-//                 field: 'rwh',
-//                 title: '任务号',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 110,
-//             }, {
-//                 field: 'gygczt',
-//                 title: '工艺规程状态',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 110,
-//             }, {
-//                 field: 'gx',
-//                 title: '工序',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 110,
-//             }, {
-//                 field: 'mc',
-//                 title: '名称',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 150,
-//             }, {
-//                 field: 'th',
-//                 title: '图号',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 100,
-//             }, {
-//                 field: 'dw',
-//                 title: '单位',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 100,
-//             }, {
-//                 field: 'sl',
-//                 title: '数量',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 100,
-//             }, {
-//                 field: 'cz',
-//                 title: '材质',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 100,
-//             }, {
-//                 field: 'xhj',
-//                 title: '序合计',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 100,
-//             }, {
-//                 field: 'zl',
-//                 title: '重量',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 100,
-//             }, {
-//                 field: 'gj',
-//                 title: '工件',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'djgy',
-//                 title: '单价元',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'hjje',
-//                 title: '合计金额',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'xgs',
-//                 title: '铣工时',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'xdj',
-//                 title: '铣单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'cgs',
-//                 title: '车工时',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'cdj',
-//                 title: '车单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'qgs',
-//                 title: '钳工时',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'qdj',
-//                 title: '钳单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'zjwwgs',
-//                 title: '整件外委工时',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'zjwwdj',
-//                 title: '整件外委单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'wwgs',
-//                 title: '外委工时',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'wwdj',
-//                 title: '外委单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'tgs',
-//                 title: '镗工时',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'tdj',
-//                 title: '镗单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'ggs',
-//                 title: '割工时',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'gdj',
-//                 title: '割单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'mgs',
-//                 title: '磨工时',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'mdj',
-//                 title: '磨单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'skxgs',
-//                 title: '数控铣工时',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'skxdj',
-//                 title: '数控铣单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'lc',
-//                 title: '立车',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'lcdj',
-//                 title: '立车单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'dhh',
-//                 title: '电火花',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'dhhdj',
-//                 title: '电火花单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'zzs',
-//                 title: '中走丝',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'zzsdj',
-//                 title: '中走丝单价',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'xl',
-//                 title: '下料',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'skz',
-//                 title: '深孔钻',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'hcrq',
-//                 title: '回厂日期',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'ccrq',
-//                 title: '出厂日期',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'ddyqjh',
-//                 title: '订单要求交货',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'x',
-//                 title: '铣',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'c',
-//                 title: '车',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'djy',
-//                 title: '登记员',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }, {
-//                 field: 'bz',
-//                 title: '备注',
-//                 align: 'center',
-//                 sortable: true,
-//                 width: 130,
-//             }
-//         ],
-//         onClickRow: function (row, el) {
-//             let isSelect = $(el).hasClass('selected')
-//             if (isSelect) {
-//                 $(el).removeClass('selected')
-//             } else {
-//                 $(el).addClass('selected')
-//             }
-//         }
-//     })
-// }
+
+
 function setTable(data) {
     if ($('#HtjlTable').html != '') {
         $('#HtjlTable').bootstrapTable('load', data);
     }
-
     $('#HtjlTable').bootstrapTable({
         data: data,
         sortStable: true,
@@ -660,31 +478,31 @@ function setTable(data) {
                 width: 130,
             }, {
                 field: 'r',
-                title: '铣工时',
+                title: '铣工时/40',
                 align: 'center',
                 sortable: true,
                 width: 130,
             }, {
                 field: 's',
-                title: '铣单价',
+                title: '铣单价/40',
                 align: 'center',
                 sortable: true,
                 width: 130,
             }, {
                 field: 't',
-                title: '车工时',
+                title: '车工时/40',
                 align: 'center',
                 sortable: true,
                 width: 130,
             }, {
                 field: 'u',
-                title: '车单价',
+                title: '车单价/34',
                 align: 'center',
                 sortable: true,
                 width: 130,
             }, {
                 field: 'v',
-                title: '钳工时',
+                title: '钳工时/40',
                 align: 'center',
                 sortable: true,
                 width: 130,
@@ -696,7 +514,7 @@ function setTable(data) {
                 width: 130,
             }, {
                 field: 'x',
-                title: '整件外委工时',
+                title: '整件外委工时/57.6',
                 align: 'center',
                 sortable: true,
                 width: 130,
@@ -708,7 +526,7 @@ function setTable(data) {
                 width: 130,
             }, {
                 field: 'z',
-                title: '外委工时',
+                title: '外委工时/48',
                 align: 'center',
                 sortable: true,
                 width: 130,
@@ -720,7 +538,7 @@ function setTable(data) {
                 width: 130,
             }, {
                 field: 'ab',
-                title: '镗工时',
+                title: '镗工时/73',
                 align: 'center',
                 sortable: true,
                 width: 130,
@@ -732,7 +550,7 @@ function setTable(data) {
                 width: 130,
             }, {
                 field: 'ad',
-                title: '割工时',
+                title: '割工时/24',
                 align: 'center',
                 sortable: true,
                 width: 130,
@@ -744,7 +562,7 @@ function setTable(data) {
                 width: 130,
             }, {
                 field: 'af',
-                title: '磨工时',
+                title: '磨工时/42',
                 align: 'center',
                 sortable: true,
                 width: 130,
@@ -756,7 +574,7 @@ function setTable(data) {
                 width: 130,
             }, {
                 field: 'ah',
-                title: '数控铣工时',
+                title: '数控铣工时/69',
                 align: 'center',
                 sortable: true,
                 width: 130,
@@ -768,7 +586,7 @@ function setTable(data) {
                 width: 130,
             }, {
                 field: 'aj',
-                title: '立车',
+                title: '立车/71',
                 align: 'center',
                 sortable: true,
                 width: 130,
@@ -780,7 +598,7 @@ function setTable(data) {
                 width: 130,
             }, {
                 field: 'al',
-                title: '电火花',
+                title: '电火花/42',
                 align: 'center',
                 sortable: true,
                 width: 130,
@@ -792,7 +610,7 @@ function setTable(data) {
                 width: 130,
             }, {
                 field: 'an',
-                title: '中走丝',
+                title: '中走丝/38',
                 align: 'center',
                 sortable: true,
                 width: 130,
@@ -821,7 +639,7 @@ function setTable(data) {
                 sortable: true,
                 width: 130,
             }, {
-                field: 'as',
+                field: 'ass',
                 title: '出厂日期',
                 align: 'center',
                 sortable: true,

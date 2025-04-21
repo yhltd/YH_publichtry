@@ -20,13 +20,26 @@ public class HtjlImpl extends ServiceImpl<HtjlMapper, Htjl> implements HtjlServi
     }
 
     @Override
+    public List<Htjl> refresh() {
+        return htjlMapper.refresh();
+    }
+
+    @Override
+    public List<Htjl> month() {
+        return htjlMapper.month();
+    }
+
+    @Override
     public List<Htjl> queryList(String ywdw, String gygczt) {
         return htjlMapper.queryList(ywdw,gygczt);
     }
 
     @Override
     public boolean update(Htjl htjl) { return updateById(htjl); }
-
+@Override
+public boolean jisuan(){
+        return htjlMapper.jisuan();
+}
     @Override
     public boolean delete(List<Integer> idList) {
         return removeByIds(idList);
