@@ -30,10 +30,4 @@ public class UserInfo {
      */
     private String F;
 
-//    public Object Power;
-//    /**
-//     * 操作权限
-//     */
-//    private String caozuoquanxian;
-
 }

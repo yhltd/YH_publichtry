@@ -1,13 +1,3 @@
-// function alert(msg){
-//     let $alerts = $('#alerts')
-//     if($alerts.length == 0){
-//         $alerts = $('<div id="alerts" class="alerts"></div>')
-//         $('body').append($alerts)
-//     }
-//     let $alert = $('<div class="alert alert-primary alert-dismissible fade show">'+msg+'</div>')
-//     $alerts.append($alert)
-// }
-
 $(function () {
 
     //登陆后不是管理员隐藏账号管理
@@ -18,91 +8,6 @@ $(function () {
         var this_power = res.data
         if(this_power != '管理员' && this_power !=undefined) {
             document.getElementById('zhgl').style.display = 'none';
-        }
-    })
-
-    var onload_url = $.session.get('onload_url');
-    if (onload_url != undefined && onload_url !=''){
-        $('#iframe').attr('src', onload_url);
-    }
-    $.session.set('onload_url', '')
-
-})
-
-$(function () {
-
-    //登陆后不是管理员隐藏账号管理
-    $ajax({
-        type: 'post',
-        url: '/user/getPower',
-    }, false, '', function (res) {
-        var this_power = res.data
-        if(this_power != '管理员' && this_power !=undefined) {
-            document.getElementById('jcxx').style.display = 'none';
-        }
-    })
-
-    var onload_url = $.session.get('onload_url');
-    if (onload_url != undefined && onload_url !=''){
-        $('#iframe').attr('src', onload_url);
-    }
-    $.session.set('onload_url', '')
-
-})
-
-$(function () {
-
-    //登陆后不是管理员隐藏账号管理
-    $ajax({
-        type: 'post',
-        url: '/user/getPower',
-    }, false, '', function (res) {
-        var this_power = res.data
-        if(this_power != '管理员' && this_power !=undefined) {
-            document.getElementById('kc').style.display = 'none';
-        }
-    })
-
-    var onload_url = $.session.get('onload_url');
-    if (onload_url != undefined && onload_url !=''){
-        // 使id为iframe的元素src属性更改为onload_url的值
-        $('#iframe').attr('src', onload_url);
-    }
-    $.session.set('onload_url', '')
-
-})
-
-$(function () {
-
-    //登陆后不是管理员隐藏账号管理
-    $ajax({
-        type: 'post',
-        url: '/user/getPower',
-    }, false, '', function (res) {
-        var this_power = res.data
-        if(this_power != '管理员' && this_power !=undefined) {
-            document.getElementById('zm').style.display = 'none';
-        }
-    })
-
-    var onload_url = $.session.get('onload_url');
-    if (onload_url != undefined && onload_url !=''){
-        $('#iframe').attr('src', onload_url);
-    }
-    $.session.set('onload_url', '')
-
-})
-
-$(function () {
-
-    //登陆后不是管理员隐藏账号管理
-    $ajax({
-        type: 'post',
-        url: '/user/getPower',
-    }, false, '', function (res) {
-        var this_power = res.data
-        if(this_power != '管理员' && this_power !=undefined) {
-            document.getElementById('kddz').style.display = 'none';
         }
     })
 
@@ -296,43 +201,6 @@ $(function () {
     $('#refresh_btn').click(function(){
         location.reload();
     })
-
-    // //点击修改密码显示弹窗
-    // $("#updPwd-a").click(function () {
-    //     $('#update-modal').modal('show');
-    // })
-    //
-    // //点击提交按钮
-    // $("#update-submit-btn").click(function () {
-    //     if(checkForm('#updPwdForm')) {
-    //         let params = formToJson('#updPwdForm')
-    //         if (params.newPwd != params.newPwdAgain) {
-    //             alert('两次新密码不相同')
-    //             return;
-    //         }
-    //
-    //         $ajax({
-    //             type: 'post',
-    //             url: '/user/updatePwd',
-    //             data: JSON.stringify({
-    //                 oldPwd: params.oldPwd,
-    //                 newPwd: params.newPwd
-    //             }),
-    //             contentType: 'application/json;charset=utf-8',
-    //             dataType: 'json'
-    //         }, false, '', function (res) {
-    //             if (res.code == 200) {
-    //                 alert(res.msg)
-    //                 $('#update-modal').modal('hide');
-    //                 $('#updPwdForm')[0].reset();
-    //             }
-    //         })
-    //     }
-    // })
-    //点击关闭按钮
-    // $("#update-close-btn").click(function () {
-    //     $('#update-modal').modal('hide');
-    // })
 })
 
 setInterval('show1()',1000);

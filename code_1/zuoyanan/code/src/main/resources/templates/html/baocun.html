@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>暂存明细</title>
+    <link rel="shortcut icon" href="#"/>
+
+    <script type="text/javascript" src="../js/Jquery.js"></script>
+    <script type="text/javascript" src="../js/jquerysession.js"></script>
+
+
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/icons/bootstrap-icons.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+
+    <!--bootstrap-table-->
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
+
+    <link rel="stylesheet" href="../css/sweetalert.css">
+    <script type="text/javascript" src="../js/sweetalert-dev.js"></script>
+
+    <link rel="stylesheet" href="../css/main.css">
+    <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript" src="../js/baocun.js"></script>
+</head>
+<body class="pt-2">
+
+
+<div class="top-toolbar row">
+    <div class="col-md-3 mb-2">
+        <input id="D" type="text" class="form-control" placeholder="业务单位" autocomplete="off">
+    </div>
+    <div class="col-md-3 mb-2">
+        <input id="H" type="text" class="form-control" placeholder="任务号" autocomplete="off">
+    </div>
+    <div class="col-md-3 mb-2">
+        <input id="I" type="text" class="form-control" placeholder="图号" autocomplete="off">
+    </div>
+    <div class="col-md-2 mb-2">
+        <button id="select-btn" class="btn" style="background-color: limegreen;color: white">
+            <i class="bi bi-search icon"></i>
+            条件查询
+        </button>
+    </div>
+</div>
+<div id="table-toolbar">
+    <div class="btn-group"  role="group ">
+        <span style="border-right: 40px solid white"></span>
+        <a href="main.html"  target="_top">
+            <button id="shouye-btn" class="btn grandient-button " style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+                首页
+            </button>
+        </a>
+        <span style="border-right: 40px solid white"></span>
+        <button id="refresh-btn" class="btn grandient1-button"  style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            刷新
+        </button>
+<!--        <span style="border-right: 40px solid white"></span>-->
+<!--        <button id="select-btn" class="btn grandient1-button" style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">-->
+<!--            查询-->
+<!--        </button>-->
+        <span style="border-right: 40px solid white"></span>
+        <button id="update-btn" class="btn grandient1-button" style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            修改
+        </button>
+        <span style="border-right: 40px solid white"></span>
+        <button id="delete-btn" class="btn grandient1-button" style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            删除
+        </button>
+        </div>
+</div>
+<div class="table-div border-top">
+    <table id="baocunTable"></table>
+</div>
+<!--<div id="select-modal" class="modal fade" tabindex="-1">-->
+<!--    <div class="modal-dialog modal-lg">-->
+<!--        <div class="modal-content">-->
+
+
+<!--            <div class="modal-header">-->
+<!--                <div class="modal-title">录入</div>-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+
+<!--            <div class="modal-body">-->
+<!--                <form id="select-form" class="needs-validation">-->
+<!--                    <div class="row justify-content-evenly">-->
+<!--                        <div class="col-6">-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="select-D">业务单位</label>-->
+<!--                                <input id="select-D" name="D" type="text" class="form-control" autocomplete="off" data-required="0">-->
+<!--                                <div class="invalid-feedback">-->
+<!--                                    请输入业务单位！-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row justify-content-evenly">-->
+<!--                        <div class="col-6">-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="select-H">任务号</label>-->
+<!--                                <input id="select-H" name="H" type="text" class="form-control" autocomplete="off" data-required="0">-->
+<!--                                <div class="invalid-feedback">-->
+<!--                                    请输入任务号！-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row justify-content-evenly">-->
+<!--                        <div class="col-6">-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="select-I">图号</label>-->
+<!--                                <input id="select-I" name="I" type="text" class="form-control" autocomplete="off" data-required="0">-->
+<!--                                <div class="invalid-feedback">-->
+<!--                                    请输入图号！-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--            <div class="border-top" style="padding: 15px;">-->
+<!--                <button id="select-submit-btn" type="button" class="btn" style="background-color: limegreen;color: white">-->
+<!--                    <i class="bi bi-arrow-bar-up icon"></i>-->
+<!--                    提交-->
+<!--                </button>-->
+<!--                <button id="select-close-btn" type="button" class="btn left-margin" style="background-color: red;color: white">-->
+<!--                    <i class="bi bi-x-circle icon"></i>-->
+<!--                    关闭-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<div id="update-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">编辑</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="update-form" class="needs-validation">
+                    <div class="form-group">
+                        <input id="id" name="id" type="hidden">
+                    </div>
+                    <div class="row justify-content-evenly">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-C">合同记录</label>
+                                <input id="update-C" name="C" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入合同记录！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-D">业务单位</label>
+                                <input id="update-D" name="D" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入业务单位！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-E">数量</label>
+                                <input id="update-E" name="E" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入数量！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-F">材质</label>
+                                <input id="update-F" name="F" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入材质！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-G">零件名称</label>
+                                <input id="update-G" name="G" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入零件名称！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-H">任务号</label>
+                                <input id="update-H" name="H" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入任务号！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-I">图号</label>
+                                <input id="update-I" name="I" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入图号！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-J">工序名称</label>
+                                <input id="update-J" name="J" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入工序名称！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-K">工序内容</label>
+                                <input id="update-K" name="K" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入工序内容！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-L">合计工时</label>
+                                <input id="update-L" name="L" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入合计工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-M">员工签名</label>
+                                <input id="update-M" name="M" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入员工签名！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-N">完工时间</label>
+                                <input id="update-N" name="N" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入完工时间！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-O">检验盖章</label>
+                                <input id="update-O" name="O" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入检验盖章！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-P">备注</label>
+                                <input id="update-P" name="P" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入备注！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-Q">工艺员</label>
+                                <select id="update-Q" name="Q" class="form-control" autocomplete="off">
+                                    <option value="左延安">左延安</option>
+                                    <option value="漆中华">漆中华</option>
+                                    <option value="秦进仓">秦进仓</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <label >工艺员日期</label>
+                            <input id="update-R"  name="R" type="date" class="form-control" placeholder="日期" autocomplete="off">
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-S">校对员</label>
+                                <select id="update-S" name="S" class="form-control" autocomplete="off">
+                                    <option value="左延安">左延安</option>
+                                    <option value="漆中华">漆中华</option>
+                                    <option value="秦进仓">秦进仓</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <label >校对员日期</label>
+                            <input id="update-T"  name="T" type="date" class="form-control" placeholder="日期" autocomplete="off">
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label >批准员</label>
+                                <select id="update-U" name="U" class="form-control" autocomplete="off">
+                                    <option value="左延安">左延安</option>
+                                    <option value="漆中华">漆中华</option>
+                                    <option value="秦进仓">秦进仓</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <label >批准员日期</label>
+                            <input id="update-V"  name="V" type="date" class="form-control" placeholder="日期" autocomplete="off">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="update-submit-btn" type="button" class="btn" style="background-color: limegreen;color: white">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    提交
+                </button>
+                <button id="update-close-btn" type="button" class="btn left-margin" style="background-color: red;color: white">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--删除-->
+<div id="delete-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">提示</div>
+            </div>
+            <div id="delete-modal-body" class="modal-body">
+                确定删除吗？
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="delete-submit-btn" type="button" class="btn">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+                <button id="delete-close-btn" type="button" class="btn left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

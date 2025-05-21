@@ -1,477 +1,716 @@
 var aa;
-$(function () {
-    // this_kuan = $('table').width();
-    //打印
-    $('#print-btn').click(function () {
-        // $('table').width(this_kuan)
-        // $('.table-div').width(this_kuan)
-        $('#select-btn').hide();
-        $('#print-btn').hide();
-        $('#dqy').hide();
-        $('#sfyjlab').hide();
-        $('#sfyj').hide();
-        // var newstr = window.document.getElementById("div").innerHTML;
-        // var oldstr = window.document.body.innerHTML;
-        // document.body.innerHTML = newstr;
-        // print（）方法用于调用打印弹窗，打印当前窗口的内容
-        window.print();
-        // document.body.innerHTML = oldstr;
-        // window.location.reload();
-        // return false;
-    });
+var idd = 0;
+let count = 1;
+var arr = {};
+var n = 0;
+var h = "";
+let select = [];
+let select_mc = [];
+var y = 0;
+var x = 0;
+var z = 0;
+var hjysje = 0;
+var bz1;
+var request;
+var signBackRequest;
+function columnUpd(id, column) {
+    var this_value = $('#' + column + id).val();
+    $ajax({
+        type: 'post',
+        url: '/shdp/update',
+        data: {
+            column: column,
+            id: id,
+            value: this_value,
+        }
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            getList2();
+        }
+    })
+}
+function getQueryParam(paramName) {
+    var queryString = window.location.search.substring(1);
+    var params = queryString.split('&');
+    for (var i = 0; i < params.length; i++) {
+        var pair = params[i].split('=');
+        if (pair[0] === paramName) {
+            return pair[1];
+        }
+    }
+    return null;
+}
+
+function deleteq1() {
+    var h = getQueryParam('biaoji');
+
+    if (h == null || h == undefined) {
+        $ajax({
+            type: 'post',
+            url: '/shdp/delete',
+        })
+    }
+
+}
+
+function getList() {
 
     $ajax({
         type: 'post',
-        url: '/user/getName',
+        url: '/shdp/getList',
     }, false, '', function (res) {
-        var this_name = res.data
-        // document.getElementById("zdr").append = this_name;
-        $("#zdr").append(this_name);
+        if (res.code == 200) {
+            setTable(res.data);
+            $("#shdpTable").colResizable({
+                liveDrag: true,
+                gripInnerHtml: "<div class='grip'></div>",
+                draggingClass: "dragging",
+                resizeMode: 'fit'
+            });
+            for (i = 0; i <= res.data.id; i++) {
+                idd = i;
+            }
+        }
     })
+}
+function getList2() {
 
-    //选择数据
-    $('#select-btn').click(function () {
+    $ajax({
+        type: 'post',
+        url: '/shdp/getList',
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            setTable(res.data);
+            $("#shdpTable").colResizable({
+                liveDrag: true,
+                gripInnerHtml: "<div class='grip'></div>",
+                draggingClass: "dragging",
+                resizeMode: 'fit'
+            });
+        }
+    })
+}
+
+
+function getList3() {
+    $ajax({
+        type: 'post',
+        url: '/shdp/getList',
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            setTable(res.data);
+            $("#shdpTable").colResizable({
+                liveDrag: true,
+                gripInnerHtml: "<div class='grip'></div>",
+                draggingClass: "dragging",
+                resizeMode: 'fit'
+            });
+            for (i = 0; i <= res.data.id; i++) {
+                idd = i;
+            }
+        }
+    })
+}
+
+// function shdp() {
+//     window.location.reload();
+// }
+
+window.onload = deleteq1();
+$(function () {
+    deleteq1();
+    getList2();
+    //减一行
+
+//加一行 add
+    $('#add-btn1').click(function () {  // 假设按钮 ID 为 save-btn
+
+        // document.getElementById("C").disabled=true;
+        // document.getElementById("D").disabled=true;
+        var C = document.getElementById("C").value;
+        var D = document.getElementById("D").value;
+        var E = document.getElementById("E").value;
+        var F = document.getElementById("F").value;
+        var G = document.getElementById("G").value;
+        var H = document.getElementById("H").value;
+        var I = document.getElementById("I").value;
+        var Q = document.getElementById("Q").value;
+        var R = document.getElementById("R").value;
+        var S = document.getElementById("S").value;
+        var T = document.getElementById("T").value;
+        var U = document.getElementById("U").value;
+        var V = document.getElementById("V").value;
+
         $ajax({
             type: 'post',
-            url: '/xsd/getList',
-        }, false, '', function (res) {
-            if (res.code == 200) {
-                setTable(res.data);
-                $('#shdPrint-modal').modal('show');
+            url: '/shdp/add',
+            data: {
+                C: C,
+                D: D,
+                E: E,
+                F: F,
+                G: G,
+                H: H,
+                I: I,
+                Q: Q,
+                R: R,
+                S: S,
+                T: T,
+                U: U,
+                V: V
             }
+        }, false, '', function (res) {
+
+            getList3();
+
         })
+
     });
 
-    //提交按钮
-    $('#shdPrint-submit-btn').click(function () {
-        let rows = getData("#show-shdPrint-table")
-        if (rows.length == 0) {
-            swal('请选择数据！');
-        } else {
-            $ajax({
-                type: 'post',
-                url: '/xsd/print',
-                data: JSON.stringify({
-                    list: rows
-                }),
-                dataType: 'json',
-                contentType: 'application/json;charset=utf-8'
-            }, false, '', function (res) {
-                if (res.code == 200) {
-                    $("[name='printData']").remove();
-                    var t1 = res.data[0].shdw;
-                    var t2 = res.data[0].dh;
-                    var t3 = res.data[0].riqi;
-                    for(var i = 0;i<res.data.length;i++){
-                        t4 = "<tr name='printData'>" +
-                            "<td style='text-align: center'>" + res.data.length + "</td>" +
-                            "<td style='text-align: center'>" + res.data[i].mc + "</td>" +
-                            "<td style='text-align: center'>" + res.data[i].mh + "</td>" +
-                            "<td style='text-align: center'>" + res.data[i].gg + "</td>" +
-                            "<td style='text-align: center'>" + res.data[i].js + "</td>" +
-                            "<td style='text-align: center'>" + res.data[i].zl + "</td>" +
-                            "<td style='text-align: center'>" + res.data[i].dj + "</td>" +
-                            "<td style='text-align: center'>" + res.data[i].je + "</td>" +
-                            "<td style='text-align: center'>" + res.data[i].bz + "</td>" +
-                        "</tr>";
+    //保存 add1
+    $("#add-btn").click(function () {
+        var requests = [];
+        $.ajax({
+            type: 'post',
+            url: '/shdp/getList',
+            async:false,
+            success: function (res) {
 
-                        $("#data").append(t4);
-                    }
-                    var t11 = res.data[0].jgf;
-                    var t12 = res.data[0].kdf;
-                    var t21 = res.data[0].shdz;
-                    var t13 = res.data[0].kddh;
-                    var t14 = res.data[0].sfyj;
-                    var t15 = res.data[0].gd;
-                    var t16 = res.data[0].sfhs;
-                    var t17 = res.data[0].shdwjjsr;
-                    var t18 = res.data[0].sd;
-                    var t19 = res.data[0].zl;
-                    var t20 = res.data[0].je;
+                var z = res.data.length;
+                for (var i = 0; i < z; i++) {
+                    var q = (parseFloat($('#id1').val()) + i).toString();
+                    var J = $('#J'+q).val();
+                    //alert(J);
+                   // console.log($('#j').length)
+                    var K = $('#K'+q).val();
+                    var L = $('#L'+q).val();
+                    var M = $('#M'+q).val();
+                    var N = $('#N'+q).val();
+                    var O = $('#O'+q).val();
+                    var P = $('#P'+q).val();
+                    requests.push( $.ajax({
+                            type: 'post',
+                            url: '/shdp/update',
+                            async: false,
+                            data: {
 
-                    $("#shdw").append(t1);
-                    $("#dh").append(t2);
-                    $("#riqi").append(t3);
-                    $("#jgf").append(t11);
-                    $("#kdf").append(t12);
-                    $("#shdz").append(t21);
-                    $("#kddh").append(t13);
-                    $("#sfyj").append(t14);
-                    $("#gd").append(t15);
-                    $("#sfhs").append(t16);
-                    $("#shdwjjsr").append(t17);
-                    $("#sd").append(t18);
-                    $("#hjzl").append(t19);
-                    $("#hjje").append(t20);
-
-                    $('#shdPrint-modal').modal('hide');
-                    aa = res.data[0].je;
-                    getHjje();
-                    if($("#sfhs" == '含税')){
-                        $('#sdlable').hide();
-                        $('#sd').hide();
-                    }
-                    if($("#sfhs" == '未含税')){
-                        $('#sdlable').hide();
-                        $('#sd').hide();
-                    }
-                }
-            })
-        }
-    });
-    $('#shdPrint-close-btn').click(function () {
-        $('#shdPrint-modal').modal('hide');
+                                J: J,
+                                K: K,
+                                L: L,
+                                M: M,
+                                N: N,
+                                O: O,
+                                P: P,
+                                id:q,
+                            },
+                }))
+        }},
+        });
     })
+    //暂存
+    $("#add-btn2").click(function () {
+        var requests = [];
+        $.ajax({
+            type: 'post',
+            url: '/shdp/getList',
+            async:false,
+            success: function (res) {
+
+                var z = res.data.length;
+                for (var i = 0; i < z; i++) {
+                    var C = document.getElementById("C").value;
+                    var D = document.getElementById("D").value;
+                    var E = document.getElementById("E").value;
+                    var F = document.getElementById("F").value;
+                    var G = document.getElementById("G").value;
+                    var H = document.getElementById("H").value;
+                    var I = document.getElementById("I").value;
+                    var Q = document.getElementById("Q").value;
+                    var R = document.getElementById("R").value;
+                    var S = document.getElementById("S").value;
+                    var T = document.getElementById("T").value;
+                    var U = document.getElementById("U").value;
+                    var V = document.getElementById("V").value;
+                    var q = (parseFloat($('#id1').val()) + i).toString();
+                    var J = $('#J'+q).val();
+                    //alert(J);
+                    // console.log($('#j').length)
+                    var K = $('#K'+q).val();
+                    var L = $('#L'+q).val();
+                    var M = $('#M'+q).val();
+                    var N = $('#N'+q).val();
+                    var O = $('#O'+q).val();
+                    var P = $('#P'+q).val();
+                    requests.push( $.ajax({
+                        type: 'post',
+                        url: '/baocun/add',
+                        async: false,
+                        data: {
+
+                            C: C,
+                            D: D,
+                            E: E,
+                            F: F,
+                            G: G,
+                            H: H,
+                            I: I,
+                            J: J,
+                            K: K,
+                            L: L,
+                            M: M,
+                            N: N,
+                            O: O,
+                            P: P,
+                            Q: Q,
+                            R: R,
+                            S: S,
+                            T: T,
+                            U: U,
+                            V: V,
+                            //id:q,
+                        },
+                    }))
+                }},
+        });
+    })
+    $("#refresh-btn").click(function () {
+        getList2();
+    });
+
+    //减一行 获取当前数据一共多少行，从最大id开始减
+    $("#delete-btn1").click(function () {
+        var requests = [];
+        $.ajax({
+            type: 'post',
+            url: '/shdp/getList',
+            async:false,
+            success: function (res) {
+
+                var z = res.data.length;
+                for (var i = 0; i < z; i++) {
+                    var q = (parseFloat($('#id1').val()) + i).toString();
+                }
+                requests.push($.ajax({
+                    type: 'post',
+                    url: '/shdp/delete1',
+                    async: false,
+                    data: {
+                        id: q,
+                    },
+                }))
+            },
+        })
+        getList3();  })
+
+
+    // C:C,
+    // D:D,
+    // E:E,
+    // F:F,
+    // G:G,
+    // H:H,
+    // I:I,
+    // Q:Q,
+    // R:R,
+    // S:S,
+    // T:T,
+    // U:U,
+    // V:V,
+    // var C = document.getElementById("C").value;
+    // var D = document.getElementById("D").value;
+    // var E = document.getElementById("E").value;
+    // var F = document.getElementById("F").value;
+    // var G = document.getElementById("G").value;
+    // var H = document.getElementById("H").value;
+    // var I = document.getElementById("I").value;
+    // var Q = document.getElementById("Q").value;
+    // var R = document.getElementById("R").value;
+    // var S = document.getElementById("S").value;
+    // var T = document.getElementById("T").value;
+    // var U = document.getElementById("U").value;
+    // var V = document.getElementById("V").value;
+    //刷新
+
+//     //点击查询按钮显示弹窗
+//     $("#select-btn").click(function () {
+//         $('#select-modal').modal('show');
+//     });
+//
+//     //查询弹窗里点击关闭按钮
+//     $('#select-close-btn').click(function () {
+//         $('#select-modal').modal('hide');
+//     });
+// //查询按钮
+//     $("#select-submit-btn").click(function () {
+//         // 1. 获取表单数据
+//         const params = formToJson("#select-form");
+//         // 2. 表单验证
+//         if (!checkForm('#select-form')) {
+//             swal("警告", "请正确填写查询条件！", "warning");
+//             return;
+//         }
+//         // 3. 发起 GET 请求（查询操作）
+//         $.ajax({
+//             type: 'GET',
+//             url: '/shdp/queryList',  // 查询接口
+//             data: params,         // 参数直接传递，自动转为 URL 查询字符串
+//             dataType: 'json',
+//             success: function (res) {
+//                 if (res.code === 200) {
+//                     // 4. 渲染查询结果到表格
+//                     setTable(res.data);
+//                     // renderTable(res.data);
+//
+//                     $('#select-modal').modal('hide'); // 关闭弹窗
+//                     // $('#select-modal').reset();
+//                 } else {
+//                     swal("错误", res.msg || "查询失败", "error");
+//                 }
+//             },
+//             error: function (xhr) {
+//                 swal("错误", "请求失败: " + xhr.statusText, "error");
+//             }
+//         });
+//         function renderTable(data) {
+//             $('#show-shdPrint-table').bootstrapTable('load', data);
+//         }
+//         // 回调函数的参数可能不正确或不完整
+//     })
+
+    // $('#add-btn1').click(function () {
+    //
+    //
+    //     var C="";
+    //     var D="";
+    //     var E="";
+    //     var F="";
+    //     var G="";
+    //     var H="";
+    //     var I="";
+    //     var J="";
+    //     var K="";
+    //     var L="";
+    //     var M="";
+    //     var N="";
+    //     var O="";
+    //     var P="";
+    //     var Q="";
+    //     var R="";
+    //     var S="";
+    //     var T="";
+    //     var U="";
+    //     var V="";
+    //
+    //     $ajax({
+    //
+    //         type: 'post',
+    //         url: '/shdp/add',
+    //         data: {
+    //             C: C,
+    //             D: D,
+    //             E: E,
+    //             F: F,
+    //             G: G,
+    //             H: H,
+    //             I: I,
+    //             J: J,
+    //             K: K,
+    //             L: L,
+    //             M: M,
+    //             N: N,
+    //             O: O,
+    //             P: P,
+    //             Q: Q,
+    //             R: R,
+    //             S: S,
+    //             T: T,
+    //             U: U,
+    //             V: V
+    //         }
+    //     }, false, '', function (res) {
+    //         getList();
+    //
+    //     })
+    //
+    // });
+
+// //     //点击删除按钮
+//     $('#delete-btn').click(function () {
+//         var msg = confirm("确认要删除吗？");
+//         if (msg) {
+//             let rows = getTableSelection("#shdpTable");
+//             if (rows.length == 0) {
+//                 swal('请选择要删除的数据！');
+//                 return;
+//             }
+//             let idList = [];
+//             $.each(rows, function (index, row) {
+//                 idList.push(row.data.id)
+//             });
+//             $ajax({
+//                 type: 'post',
+//                 url: '/shdp/delete',
+//                 // 将要发送的数据转换成json格式（发送的数据为idlist集合）
+//                 data: JSON.stringify({
+//                     idList: idList
+//                 }),
+//                 // 服务器响应数据为json格式
+//                 dataType: 'json',
+//                 // 设置请求的内容类型为json格式，并且指定字符集为utf—8
+//                 contentType: 'application/json;charset=utf-8'
+//             }, false, '', function (res) {
+//                 if (res.code == 200) {
+//                     swal("", res.msg, "success");
+//                     getList();
+//                 } else {
+//                     swal("", res.msg, "error");
+//                 }
+//             })
+//         }
+//     });
 });
 
-function menoyToUppercase(money) {
-
-    var cnNums = new Array('零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'); //汉字的数字
-
-    var cnIntRadice = new Array('', '拾', '佰', '仟'); //基本单位
-
-    var cnIntUnits = new Array('', '万', '亿', '兆'); //对应整数部分扩展单位
-
-    var cnDecUnits = new Array('角', '分', '毫', '厘'); //对应小数部分单位
-
-    var cnInteger = '整'; //整数金额时后面跟的字符
-
-    var cnIntLast = '元'; //整数完以后的单位
-
-//最大处理的数字
-
-    var maxNum = 999999999999999.9999;
-
-    var integerNum; //金额整数部分
-
-    var decimalNum; //金额小数部分
-
-//输出的中文金额字符串
-
-    var chineseStr = '';
-
-    var parts; //分离金额后用的数组，预定义
-
-    if (money == '') { return ''; }
-
-    money = parseFloat(money);
-
-    if (money >= maxNum) {
-
-//超出最大处理数字
-
-        return '超出最大处理数字';
-
-    }
-
-    if (money == 0) {
-
-        chineseStr = cnNums[0] + cnIntLast + cnInteger;
-
-        return chineseStr;
-
-    }
-
-//四舍五入保留两位小数,转换为字符串
-
-    money = Math.round(money * 100).toString();
-
-    integerNum = money.substr(0,money.length-2);
-
-    decimalNum = money.substr(money.length-2);
-
-//获取整型部分转换
-
-    if (parseInt(integerNum, 10) > 0) {
-
-        var zeroCount = 0;
-
-        var IntLen = integerNum.length;
-
-        for (var i = 0; i < IntLen; i++) {
-
-            var n = integerNum.substr(i, 1);
-
-            var p = IntLen - i - 1;
-
-            var q = p / 4;
-
-            var m = p % 4;
-
-            if (n == '0') {
-
-                zeroCount++;
-
-            } else {
-
-                if (zeroCount > 0) {
-
-                    chineseStr += cnNums[0];
-
-                }
-
-//归零
-
-                zeroCount = 0;
-
-                chineseStr += cnNums[parseInt(n)] + cnIntRadice[m];
-
-            }
-
-            if (m == 0 && zeroCount < 4) {
-
-                chineseStr += cnIntUnits[q];
-
-            }
-
-        }
-
-        chineseStr += cnIntLast;
-
-    }
-
-//小数部分
-
-    if (decimalNum != '') {
-
-        var decLen = decimalNum.length;
-
-        for (var i = 0; i < decLen; i++) {
-
-            var n = decimalNum.substr(i, 1);
-
-            if (n != '0') {
-
-                chineseStr += cnNums[Number(n)] + cnDecUnits[i];
-
-            }
-
-        }
-
-    }
-
-    if (chineseStr == '') {
-
-        chineseStr += cnNums[0] + cnIntLast + cnInteger;
-
-    } else if (decimalNum == '' || /^0*$/.test(decimalNum)) {
-
-        chineseStr += cnInteger;
-
-    }
-
-    return chineseStr;
-
-}
-
-function getHjje(){
-    $("#zjedx").append(menoyToUppercase(aa));
-}
 
 function setTable(data) {
-    if ($('#show-shdPrint-table').html != '') {
-//         使用load方法加载数据
-//         $(“#finishingTask”).bootstrapTable(‘load’,data);
-// //data为json数组
-        $('#show-shdPrint-table').bootstrapTable('load', data);
+    if ($('#shdpTable').html != '') {
+        $('#shdpTable').bootstrapTable('load', data);
     }
-    // 使用bootstrapTable插件来初始化一个表格
-    $('#show-shdPrint-table').bootstrapTable({
+    $('#shdpTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table-hover text-nowrap table table-bordere',
+        // table-hover text-nowrap table table-bordere
         idField: 'id',
-        pagination: true,
-        search: true,
-        searchAlign: 'left',
-        clickToSelect: false,
+        pagination: false,
+        clickToSelect: true,
         locale: 'zh-CN',
-        singleSelect: true,
+        toolbar: '#table-toolbar',
+        toolbarAlign: 'left',
+        theadClasses: "thead-light13",//这里设置表头样式
+        style: 'table-layout:fixed;',
+        // height: document.body.clientHeight * 0.85,
+
         columns: [
             {
-                checkbox: true
-            }, {
                 field: '',
                 title: '序号',
                 align: 'center',
-                width: 50,
-                // 自定义列的显示内容
+                width: 60,
                 formatter: function (value, row, index) {
+                    var rows = row.length + 3;
                     return index + 1;
                 }
-            }, {
-                field: 'riqi',
-                title: '日期',
+            },
+            {
+                field: 'j',
+                title: '工序名称',
                 align: 'center',
                 sortable: true,
-                width: 80,
-            }, {
-                field: 'dh',
-                title: '单号',
+                width: 120,
+                formatter: function (value, row, index) {
+                    if (value == null) {
+                        value = '';
+                    }
+                    return "<textarea id='J" + row.id + "' oninput='javascript:columnUpd(" + row.id + "," + "\"J\"" + ")' placeholder='工序名称' type='text' class='form-control'  value='" + value + "'></textarea>"
+                }
+            },
+            {
+                field: 'k',
+                title: '工序内容',
                 align: 'center',
                 sortable: true,
-                width: 80,
+                width: 220,
+                formatter: function (value, row, index) {
+                    if (value == null) {
+                        value = '';
+                    }
+                    return "<textarea id='K" + row.id + "' oninput='javascript:columnUpd(" + row.id + "," + "\"K\"" + ")' placeholder='工序内容' type='text' class='form-control'  value='" + value + "'></textarea>"
+                }
+
             }, {
-                field: 'shdw',
-                title: '收货单位',
+                field: 'l',
+                title: '合计工时',
                 align: 'center',
                 sortable: true,
-                width: 130,
+                width: 120,
+                formatter: function (value, row, index) {
+                    if (value == null) {
+                        value = '';
+                    }
+                    return "<textarea id='L" + row.id + "' oninput='javascript:columnUpd(" + row.id + "," + "\"L\"" + ")' placeholder='合计工时' type='text' class='form-control'  value='" + value + "'></textarea>"
+                }
+
             }, {
-                field: 'mc',
-                title: '名称',
+                field: 'm',
+                title: '员工签名',
                 align: 'center',
                 sortable: true,
-                width: 80,
+                width: 120,
+                formatter: function (value, row, index) {
+                    if (value == null) {
+                        value = '';
+                    }
+                    return "<textarea id='M" + row.id + "' oninput='javascript:columnUpd(" + row.id + "," + "\"M\"" + ")' placeholder='员工签名' type='text' class='form-control'  value='" + value + "'></textarea>"
+                }
+
             }, {
-                field: 'mh',
-                title: '模号',
+                field: 'n',
+                title: '完工时间',
                 align: 'center',
                 sortable: true,
-                width: 80,
+                width: 120,
+                formatter: function (value, row, index) {
+                    if (value == null) {
+                        value = '';
+                    }
+                    return "<textarea id='N" + row.id + "' oninput='javascript:columnUpd(" + row.id + "," + "\"N\"" + ")' placeholder='完工时间' type='text' class='form-control'  value='" + value + "'></textarea>"
+                }
+
             }, {
-                field: 'gg',
-                title: '规格',
+                field: 'o',
+                title: '检验盖章',
                 align: 'center',
                 sortable: true,
-                width: 80,
+                width: 120,
+                formatter: function (value, row, index) {
+                    if (value == null) {
+                        value = '';
+                    }
+                    return "<textarea id='O" + row.id + "' oninput='javascript:columnUpd(" + row.id + "," + "\"O\"" + ")' placeholder='检验盖章' type='text' class='form-control'  value='" + value + "'></textarea>"
+                }
+
             }, {
-                field: 'js',
-                title: '件数',
-                align: 'center',
-                sortable: true,
-                width: 80,
-            }, {
-                field: 'zl',
-                title: '重量',
-                align: 'center',
-                sortable: true,
-                width: 80,
-            }, {
-                field: 'dj',
-                title: '单价',
-                align: 'center',
-                sortable: true,
-                width: 80,
-            }, {
-                field: 'je',
-                title: '金额',
-                align: 'center',
-                sortable: true,
-                width: 80,
-            }, {
-                field: 'bz',
+                field: 'p',
                 title: '备注',
                 align: 'center',
                 sortable: true,
-                width: 130,
-            }, {
-                field: 'shdz',
-                title: '收货地址',
-                align: 'center',
-                sortable: true,
-                width: 150,
-            }, {
-                field: 'kddh',
-                title: '快递单号',
-                align: 'center',
-                sortable: true,
                 width: 100,
-            }, {
-                field: 'sfyj',
-                title: '是否月结',
+                formatter: function (value, row, index) {
+                    if (value == null) {
+                        value = '';
+                    }
+                    return "<textarea id='P" + row.id + "' oninput='javascript:columnUpd(" + row.id + "," + "\"P\"" + ")' placeholder='备注' type='text' class='form-control'  value='" + value + "'></textarea>"
+                }
+
+            },
+            {
+                field: 'id',
+                title: 'id',
                 align: 'center',
                 sortable: true,
-                width: 100,
-            }, {
-                field: 'fkfs',
-                title: '付款方式',
-                align: 'center',
-                sortable: true,
-                width: 100,
-            }, {
-                field: 'sfhs',
-                title: '是否含税',
-                align: 'center',
-                sortable: true,
-                width: 100,
-            }, {
-                field: 'gd',
-                title: '跟单',
-                align: 'center',
-                sortable: true,
-                width: 80,
-            }, {
-                field: 'zdr',
-                title: '制单人',
-                align: 'center',
-                sortable: true,
-                width: 80,
-            }, {
-                field: 'shdwjjsr',
-                title: '收货单位及经手人',
-                align: 'center',
-                sortable: true,
-                width: 150,
-            }, {
-                field: 'jgf',
-                title: '锯工费',
-                align: 'center',
-                sortable: true,
-                width: 80,
-            }, {
-                field: 'kdf',
-                title: '快递费',
-                align: 'center',
-                sortable: true,
-                width: 80,
-            }, {
-                field: 'hsdj',
-                title: '含税单价',
-                align: 'center',
-                sortable: true,
-                width: 100,
-            }, {
-                field: 'sd',
-                title: '税点',
-                align: 'center',
-                sortable: true,
-                width: 80,
-            }, {
-                field: 'whsdj',
-                title: '未含税单价',
-                align: 'center',
-                sortable: true,
-                width: 130,
+                width: 1,
+                formatter: function (value, row, index) {
+                    if (value == null) {
+                        value = '';
+                    }
+                    var c = row.id
+                    return "<input id='id1' name='id' value='" + c + "' oninput='javascript:columnUpd(" + row.id + "," + "\"id\"" + ")' placeholder='id' type='text' class='form-control'  value='" + value + "'>"
+
+                }
             }
         ],
-        // onClickRow: function (row, el) {
-        //     let isSelect = $(el).hasClass('selected')
-        //     if (isSelect) {
-        //         $(el).removeClass('selected')
-        //     } else {
-        //         $(el).addClass('selected')
-        //     }
-        // }
+
+        onClickRow: function (row, el) {
+            let isSelect = $(el).hasClass('selected')
+            if (isSelect) {
+                $(el).removeClass('selected')
+            } else {
+                $(el).addClass('selected')
+            }
+        }
     })
 }
 
-function getData(tableEl) {
-    let result = [];
-    // 获取整个表格数据
-    let tableData = $(tableEl).bootstrapTable('getData');
-    $(tableEl + ' tr').each(function (i, tr) {
-        // 获取data-index属性的值
-        let index = $(tr).data('index');
-        if (index != undefined) {
-            if ($(tr).hasClass('selected')) {
-                result.push({
-                    shdw: tableData[index].shdw,
-                    dh: tableData[index].dh,
-                    riqi: tableData[index].riqi,
-                })
-            }
-        }
-    });
-    return result;
-}
+// function setTable(data) {
+//     if ($('#show-shdPrint-table').html != '') {
+//         $('#show-shdPrint-table').bootstrapTable('load', data);
+//     }
+//
+//     $('#show-shdPrint-table').bootstrapTable({
+//         data: data,
+//         sortStable: true,
+//         classes: 'table table-hover',
+//         idField: 'id',
+//         pagination: false,
+//         search: true,
+//         searchAlign: 'left',
+//         clickToSelect: false,
+//         locale: 'zh-CN',
+//         singleSelect: true,
+//         columns: [
+//             {
+//                 checkbox: true
+//             },  {
+//                 field: '',
+//                 title: '序号',
+//                 align: 'center',
+//                 width: 60,
+//                 formatter: function (value, row, index) {
+//                     return index + 1;
+//                 }
+//             }, {
+//                 field: 'j',
+//                 title: '工序名称',
+//                 align: 'center',
+//                 sortable: true,
+//                 width: 120,
+//             }, {
+//                 field: 'k',
+//                 title: '工序内容',
+//                 align: 'center',
+//                 sortable: true,
+//                 width: 220,
+//             }, {
+//                 field: 'l',
+//                 title: '合计工时',
+//                 align: 'center',
+//                 sortable: true,
+//                 width: 120,
+//             }, {
+//                 field: 'm',
+//                 title: '员工签名',
+//                 align: 'center',
+//                 sortable: true,
+//                 width: 120,
+//             }, {
+//                 field: 'n',
+//                 title: '完工时间',
+//                 align: 'center',
+//                 sortable: true,
+//                 width: 120,
+//
+//             }, {
+//                 field: 'o',
+//                 title: '检验盖章',
+//                 align: 'center',
+//                 sortable: true,
+//                 width: 120,
+//             }, {
+//                 field: 'p',
+//                 title: '备注',
+//                 align: 'center',
+//                 sortable: true,
+//                 width: 100,
+//             },
+//             {
+//                 field: 'id',
+//                 title: 'id',
+//                 align: 'center',
+//                 sortable: true,
+//                 width: 1,
+//             }
+//         ],
+//
+//         onClickRow: function (row, el) {
+//             let isSelect = $(el).hasClass('selected')
+//             if (isSelect) {
+//                 $(el).removeClass('selected')
+//             } else {
+//                 $(el).addClass('selected')
+//             }
+//         }
+//     })
+// }
+
+
+

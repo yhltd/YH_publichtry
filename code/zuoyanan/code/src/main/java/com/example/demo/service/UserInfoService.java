@@ -11,11 +11,11 @@ public interface UserInfoService extends IService<UserInfo> {
     /**
      * 登陆
      *
-     * @param username 用户名
-     * @param password 密码
+     * @param D 用户名
+     * @param E 密码
      * @return 转Json后的用户信息
      */
-    Map<String, Object> login(String username, String password);
+    Map<String, Object> login(String D , String E);
 
     /**
      * 查询所有
@@ -23,9 +23,9 @@ public interface UserInfoService extends IService<UserInfo> {
     List<UserInfo> getList();
 
     /**
-     * 根据姓名和部门查询
+     * 根据姓名查询
      */
-    List<UserInfo> queryList(String name);
+    List<UserInfo> queryList(String C);
 
     /**
      * 修改

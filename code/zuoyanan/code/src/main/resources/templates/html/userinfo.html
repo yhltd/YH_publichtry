@@ -54,7 +54,7 @@
 </div>
 <div class="top-toolbar row">
     <div class="col-md-3 mb-2">
-        <input id="name" type="text" class="form-control" placeholder="姓名" autocomplete="off">
+        <input id="C" type="text" class="form-control" placeholder="姓名" autocomplete="off">
     </div>
     <div class="col-md-2 mb-2">
         <button id="select-btn" class="btn" style="background-color: limegreen;color: white">
@@ -93,7 +93,7 @@
 <div class="table-div border-top">
     <table id="userTable"></table>
 </div>
-
+<!--新增-->
 <div id="add-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -109,17 +109,17 @@
                     <div class="row justify-content-evenly">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="add-name">名称</label>
-                                <input id="add-name" name="name" type="text" class="form-control" autocomplete="off">
+                                <label for="add-C">姓名</label>
+                                <input id="add-C" name="C" type="text" class="form-control" autocomplete="off">
                                 <div class="invalid-feedback">
-                                    请输入名称！
+                                    请输入姓名！
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="add-username">账号</label>
-                                <input id="add-username" name="username" type="text" class="form-control" autocomplete="off">
+                                <label for="add-D">账号</label>
+                                <input id="add-D" name="D" type="text" class="form-control" autocomplete="off">
                                 <div class="invalid-feedback">
                                     请输入账号！
                                 </div>
@@ -127,8 +127,8 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="add-password">密码</label>
-                                <input id="add-password" name="password" type="text" class="form-control" autocomplete="off">
+                                <label for="add-E">密码</label>
+                                <input id="add-E" name="E" type="text" class="form-control" autocomplete="off">
                                 <div class="invalid-feedback">
                                     请输入密码！
                                 </div>
@@ -136,25 +136,13 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="add-power">权限</label>
-                                <select id="add-power" name="power" class="form-control" autocomplete="off">
+                                <label for="add-F">权限</label>
+                                <select id="add-F" name="F" class="form-control" autocomplete="off">
                                     <option value="管理员">管理员</option>
                                     <option value="用户">用户</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     请输入权限！
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="add-caozuoquanxian">操作权限</label>
-                                <select id="add-caozuoquanxian" name="caozuoquanxian" class="form-control" autocomplete="off">
-                                    <option value="可修改">可修改</option>
-                                    <option value="可查看">可查看</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    请输入操作权限！
                                 </div>
                             </div>
                         </div>
@@ -175,6 +163,7 @@
     </div>
 </div>
 
+<!--修改-->
 <div id="update-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -193,37 +182,37 @@
                     <div class="row justify-content-evenly">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="update-name">名称</label>
-                                <input id="update-name" name="name" type="text" class="form-control" autocomplete="off">
+                                <label for="update-C">名称</label>
+                                <input id="update-C" name="C" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入名称！
+                                </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="update-username">账号</label>
-                                <input id="update-username" name="username" type="text" class="form-control" autocomplete="off">
+                                <label for="update-D">账号</label>
+                                <input id="update-D" name="D" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入账号！
+                                </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="update-password">密码</label>
-                                <input id="update-password" name="password" type="text" class="form-control" autocomplete="off">
+                                <label for="update-E">密码</label>
+                                <input id="update-E" name="E" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入密码！
+                                </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="update-power">权限</label>
-                                <select id="update-power" name="power" class="form-control" autocomplete="off">
+                                <label for="update-F">权限</label>
+                                <select id="update-F" name="F" class="form-control" autocomplete="off">
                                     <option value="管理员">管理员</option>
                                     <option value="用户">用户</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="update-caozuoquanxian">操作权限</label>
-                                <select id="update-caozuoquanxian" name="caozuoquanxian" class="form-control" autocomplete="off">
-                                    <option value="可修改">可修改</option>
-                                    <option value="可查看">可查看</option>
                                 </select>
                             </div>
                         </div>
@@ -244,6 +233,7 @@
     </div>
 </div>
 
+<!--删除-->
 <div id="delete-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

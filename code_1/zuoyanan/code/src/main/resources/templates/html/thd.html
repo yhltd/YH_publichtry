@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>退货单</title>
+    <link rel="shortcut icon" href="#"/>
+
+    <script type="text/javascript" src="../js/Jquery.js"></script>
+    <script type="text/javascript" src="../js/jquerysession.js"></script>
+
+
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/icons/bootstrap-icons.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+
+    <!--bootstrap-table-->
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
+
+    <link rel="stylesheet" href="../css/sweetalert.css">
+    <script type="text/javascript" src="../js/sweetalert-dev.js"></script>
+
+    <link rel="stylesheet" href="../css/main.css">
+    <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript" src="../js/thd.js"></script>
+
+
+</head>
+<body class="pt-2">
+
+<div id="table-top">
+    <div class="btn-group" role="group ">
+        <span style="border-right: 40px solid white"></span>
+        <a href="main.html" target="_top">
+            <button id="shouye-btn" class="btn grandient-button " style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+                首页
+            </button>
+        </a>
+        <span style="border-right: 40px solid white"></span>
+        <button id="delete-btn" class="btn grandient1-button" style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            生成新单
+        </button>
+        <span style="border-right: 40px solid white"></span>
+        <button id="add-btn1" class="btn grandient1-button" style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            保存
+        </button>
+        <span style="border-right: 40px solid white"></span>
+        <button id="add-btn" class="btn grandient1-button" style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            加一行
+        </button>
+        <span style="border-right: 40px solid white"></span>
+        <button id="delete-btn1" class="btn grandient1-button" style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            减一行
+        </button>
+        <span style="border-bottom:80px solid white"></span>
+    </div>
+</div>
+
+<div id ="table-boolbar">
+    <div class="row">
+    <div class="col-md-3 mb-2">
+        <input id="C" type="text" class="form-control" placeholder="退货客户:" autocomplete="off">
+    </div>
+    <div class="col-md-3 mb-2" >
+        <input id="D" type="text" class="form-control" placeholder="退货电话:" autocomplete="off">
+    </div>
+        <div class="col-md-3 mb-2">
+            <input id="E" type="date" class="form-control" placeholder="日期" autocomplete="off">
+        </div>
+    <div class="col-md-3 mb-2">
+        <input id="F" type="text" class="form-control" placeholder="No:" autocomplete="off">
+    </div>
+    </div>
+    <div class="table-div border-top">
+        <table id="thdTable"></table>
+    </div>
+    <div class="row">
+        <div class="col-md-3 mb-2">
+            <input id="T" type="text" class="form-control" placeholder="合计金额小写:" autocomplete="off">
+        </div>
+        <div class="col-md-3 mb-2" >
+            <input id="U" type="text" class="form-control" placeholder="地址:" autocomplete="off">
+        </div>
+        <div class="col-md-3 mb-2">
+            <input id="V" type="text" class="form-control" placeholder="电话:" autocomplete="off">
+        </div>
+        <div class="col-md-3 mb-2">
+            <input id="W" type="text" class="form-control" placeholder="客户签字:" autocomplete="off">
+        </div>
+        <div class="col-md-3 mb-2">
+            <input id="X" type="text" class="form-control" placeholder="金额合计大写:" autocomplete="off">
+        </div>
+    </div>
+</div>
+</body>
+</html>

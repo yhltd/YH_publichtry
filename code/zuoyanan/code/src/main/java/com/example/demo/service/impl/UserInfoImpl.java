@@ -19,13 +19,13 @@ public class UserInfoImpl extends ServiceImpl<UserInfoMapper, UserInfo> implemen
     UserInfoMapper userInfoMapper;
 
     @Override
-    public Map<String, Object> login(String username, String password) {
+    public Map<String, Object> login(String D, String E) {
         //条件构造器
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
         //账号
-        queryWrapper.eq("D", username);
+        queryWrapper.eq("D", D);
         //密码
-        queryWrapper.eq("E", password);
+        queryWrapper.eq("E", E);
         //获取User
         UserInfo userInfo = this.getOne(queryWrapper);
         //如果不为空
@@ -48,8 +48,8 @@ public class UserInfoImpl extends ServiceImpl<UserInfoMapper, UserInfo> implemen
     }
 
     @Override
-    public List<UserInfo> queryList(String name) {
-        return userInfoMapper.queryList(name);
+    public List<UserInfo> queryList(String C) {
+        return userInfoMapper.queryList(C);
     }
 
     @Override

@@ -36,10 +36,12 @@ public class HtjlImpl extends ServiceImpl<HtjlMapper, Htjl> implements HtjlServi
 
     @Override
     public boolean update(Htjl htjl) { return updateById(htjl); }
-@Override
-public boolean jisuan(){
+
+    @Override
+    public boolean jisuan(){
         return htjlMapper.jisuan();
 }
+
     @Override
     public boolean delete(List<Integer> idList) {
         return removeByIds(idList);
@@ -47,7 +49,5 @@ public boolean jisuan(){
 
     @Override
     public Htjl add(Htjl htjl) { return save(htjl) ? htjl : null; }
-//    @Override
-//    public List<Khzl> hqxlGsm() {return khzlMapper.hqxlGsm();}
 
 }

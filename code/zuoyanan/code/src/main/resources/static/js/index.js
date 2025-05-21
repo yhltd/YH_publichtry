@@ -6,8 +6,8 @@ $(function () {
                 type: 'post',
                 url: 'user/login',
                 data: {
-                    username: params.username,
-                    password: params.password
+                    D: params.D,
+                    E: params.E
                 },
                 success: function (res) {
                     if (res.code > 0) {

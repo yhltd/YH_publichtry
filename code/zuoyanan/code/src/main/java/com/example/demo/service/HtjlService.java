@@ -42,6 +42,4 @@ public interface HtjlService extends IService<Htjl> {
      */
     Htjl add(Htjl Htjl);
 
-//    List<Khzl> hqxlGsm();
-
 }

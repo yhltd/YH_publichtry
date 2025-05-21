@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>开票合同</title>
+    <link rel="shortcut icon" href="#"/>
+
+    <script type="text/javascript" src="../js/Jquery.js"></script>
+    <script type="text/javascript" src="../js/jquerysession.js"></script>
+
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/icons/bootstrap-icons.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+
+    <!--bootstrap-table-->
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
+
+    <link rel="stylesheet" href="../css/sweetalert.css">
+    <script type="text/javascript" src="../js/sweetalert-dev.js"></script>
+
+    <link rel="stylesheet" href="../css/main.css">
+    <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript" src="../js/kpht.js"></script>
+</head>
+
+<body class="pt-2">
+<div class="background-image">
+    <img src="../img/时间.png" class="img1">
+    <span style="color: #000000; font-size: 20px;margin-left: 20px" id="now_time" ></span>
+    <span style="margin-left: 50px;font-size: 20px"><img src="../img/个人.png" style="height: 30px;">  您 好 <b><span id="dlm" style="color: #0c0b0b"></span></b> , 欢 迎 您 登 录 !</span>
+    <img src="../img/重金属.png" class="img1" style="margin-left: 30px">
+    <img src="../img/金属.png" class="img1"style="margin-left: 30px">
+    <img src="../img/钻石.png" class="img1"style="margin-left: 30px">
+    <div class="menu">
+        <button class="btn2"><img src="../img/个人信息.png" class="img1"></button>
+        <div class="content">
+            <div>
+                <img src="../img/img_1.png">
+            </div>
+            <div style="margin-left: 60px">
+                <a href="grxx.html" class="link-dark rounded">个人信息</a>
+            </div>
+            <div style="margin-left: 60px">
+                <a href="http://localhost:9093/index.html" target="_top">退出登录</a>
+            </div>
+        </div>
+    </div>
+    <a href="main.html" target="_top"><img src="../img/首页.png" class="img1"></a>
+    <img src="../img/地球仪.png" class="img1" style="margin-left: 20px;">
+</div>
+
+<!--<div class="top-toolbar row">-->
+<!--    <div class="col-md-3 mb-2">-->
+<!--        <input id="ywdw" type="text" class="form-control" placeholder="业务单位" autocomplete="off">-->
+<!--        <input id="gygczt" type="text" class="form-control" placeholder="工艺规程状态" autocomplete="off">-->
+<!--    </div>-->
+<!--    <div class="col-md-2 mb-2">-->
+<!--        <button id="select-btn" class="btn" style="background-color: limegreen;color: white">-->
+<!--            <i class="bi bi-search icon"></i>-->
+<!--            条件查询-->
+<!--        </button>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div id="table-toolbar">
+    <div class="btn-group" role="group">
+        <button id="refresh-btn" class="btn btn-primary" style="border-radius:5px;">
+            <i class="bi bi-arrow-clockwise icon"></i>
+            刷新
+        </button>
+        <span style="border-right: 20px solid white"></span>
+        <button id="add-btn" class="btn btn-primary" style="border-radius:5px;">
+            <i class="bi bi-plus-square icon"></i>
+            新增
+        </button>
+        <span style="border-right: 20px solid white"></span>
+        <button id="update-btn" class="btn btn-primary" style="border-radius:5px;">
+            <i class="bi bi-plus-square icon"></i>
+            修改
+        </button>
+        <span style="border-right: 20px solid white"></span>
+        <button id="delete-btn" class="btn btn-primary" style="border-radius:5px;background-color: #ff0000;">
+            <i class="bi bi-trash icon"></i>
+            删除选中
+        </button>
+
+        <span style="border-right: 20px solid white"></span>
+        <button id="szkp-btn" class="btn btn-primary" style="border-radius:5px;">
+            <i class="bi bi-trash icon"></i>
+            设置开票
+        </button>
+
+        <span style="border-right: 20px solid white"></span>
+        <a class="btn btn-primary" style="color: white;padding-top: 8px;border-radius:5px;">当前页：开票合同</a>
+    </div>
+</div>
+
+<div class="table-div border-top">
+    <table id="kphtTable"></table>
+</div>
+
+<div id="add-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">录入</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!--                class="needs-validation"    验证表单必填-->
+                <form id="add-form" class="needs-validation" >
+                    <div class="row justify-content-evenly">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-ywdw" >业务单位</label>
+                                <input id="add-ywdw" name="C" type="text" class="form-control" autocomplete="off">
+                                <div class="invalid-feedback">
+                                    请输入业务单位！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-hth">合同号</label>
+                                <input id="add-hth" name="D" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <!--                                class="invalid-feedback"-->
+                                <div >
+                                    请输入合同号！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-rwh">任务号</label>
+                                <input id="add-rwh" name="E" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div >
+                                    请输入任务号！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-gygczt" class="required">开票状态</label>
+                                <input id="add-gygczt" name="F" type="text" class="form-control" autocomplete="off">
+                                <div class="invalid-feedback">
+                                    请输入开票状态！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-gx">工序</label>
+                                <input id="add-gx" name="G" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入工序！
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-mc">名称</label>
+                                <input id="add-mc" name="H" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入名称！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-th">图号</label>
+                                <input id="add-th" name="I" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入图号！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-dw">单位</label>
+                                <input id="add-dw" name="J" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入单位！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-sl">数量</label>
+                                <input id="add-sl" name="K" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入数量！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-cz">材质</label>
+                                <input id="add-cz" name="L" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入材质！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-xhj">序合计</label>
+                                <input id="add-xhj" name="M" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入序合计！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-zl">重量</label>
+                                <input id="add-zl" name="N" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入重量！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-gj">工件</label>
+                                <input id="add-gj" name="O" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入工件！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-djgy">单价元</label>
+                                <input id="add-djgy" name="P" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入单价元！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-hjje">合计金额</label>
+                                <input id="add-hjje" name="Q" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入合计金额！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-xgs">铣工时/40</label>
+                                <input id="add-xgs" name="R" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入铣工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-xdj">铣单价</label>
+                                <input id="add-xdj" name="S" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入铣单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-cgs">车工时/40</label>
+                                <input id="add-cgs" name="T" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入车工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-cdj">车单价</label>
+                                <input id="add-cdj" name="U" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入车单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-qgs">钳工时/40</label>
+                                <input id="add-qgs" name="V" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入钳工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-qdj">钳单价</label>
+                                <input id="add-qdj" name="W" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入钳单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-zjwwgs">整件外委工时/57.6</label>
+                                <input id="add-zjwwgs" name="X" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入整件外委工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-zjwwdj">整件外委单价</label>
+                                <input id="add-zjwwdj" name="Y" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入整件外委工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-wwgs">外委工时/48</label>
+                                <input id="add-wwgs" name="Z" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入外委工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-wwdj">外委单价</label>
+                                <input id="add-wwdj" name="aa" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入外委单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-tgs">镗工时/73</label>
+                                <input id="add-tgs" name="ab" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入镗工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-tdj">镗单价</label>
+                                <input id="add-tdj" name="ac" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入镗单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-ggs">割工时/24</label>
+                                <input id="add-ggs" name="ad" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入割工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-gdj">割单价</label>
+                                <input id="add-gdj" name="ae" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入割单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-mgs">磨工时/42</label>
+                                <input id="add-mgs" name="af" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入磨工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-mdj">磨单价</label>
+                                <input id="add-mdj" name="ag" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入磨单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-skxgs">数控铣工时/69</label>
+                                <input id="add-skxgs" name="ah" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入数控铣工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-skxdj">数控铣单价</label>
+                                <input id="add-skxdj" name="ai" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入数控铣单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-lc">立车/71</label>
+                                <input id="add-lc" name="aj" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入立车！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-lcdj">立车单价</label>
+                                <input id="add-lcdj" name="ak" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入立车单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-dhh">电火花/42</label>
+                                <input id="add-dhh" name="al" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入电火花！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-dhhdj">电火花单价</label>
+                                <input id="add-dhhdj" name="am" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入电火花单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-zzs">中走丝/38</label>
+                                <input id="add-zzs" name="an" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入中走丝！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-zzsdj">中走丝单价</label>
+                                <input id="add-zzsdj" name="ao" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入中走丝单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-xl">下料</label>
+                                <input id="add-xl" name="ap" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入下料！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-skz">深孔钻</label>
+                                <input id="add-skz" name="aq" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入深孔钻！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-hcrq">回厂日期</label>
+                                <input id="add-hcrq" name="ar" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入回厂日期！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-ccrq">出厂日期</label>
+                                <input id="add-ccrq" name="ass" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入出厂日期！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-ddyqjh">订单要求交货</label>
+                                <input id="add-ddyqjh" name="at" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入订单要求交货！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-x">铣</label>
+                                <input id="add-x" name="hetongZhuangtai" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入铣！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-c">车</label>
+                                <input id="add-c" name="au" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入车！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-djy">登记员</label>
+                                <input id="add-djy" name="av" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入登记员！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-bz">备注</label>
+                                <input id="add-bz" name="aw" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入备注！
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="add-submit-btn" type="button" class="btn" style="background-color: limegreen;color: white">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    保存
+                </button>
+<!--                <button id="add1-submit-btn" type="button" class="btn" style="background-color: limegreen;color: white">-->
+<!--                    <i class="bi bi-arrow-bar-up icon"></i>-->
+<!--                    仅保存-->
+<!--                </button>-->
+                <button id="add-close-btn" type="button" class="btn left-margin" style="background-color: red;color: white">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="update-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">编辑</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="update-form" class="needs-validation">
+                    <div class="form-group">
+                        <input id="id" name="id" type="hidden">
+                    </div>
+
+                    <div class="row justify-content-evenly">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-ywdw">业务单位</label>
+                                <input id="update-ywdw" name="C" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入业务单位！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-hth">合同号</label>
+                                <input id="update-hth" name="D" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入合同号！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-rwh">任务号</label>
+                                <input id="update-rwh" name="E" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入任务号！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-gygczt">开票状态</label>
+                                <input id="update-gygczt" name="F" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入开票状态！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-gx">工序</label>
+                                <input id="update-gx" name="G" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入工序！
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-mc">名称</label>
+                                <input id="update-mc" name="H" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入名称！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-th">图号</label>
+                                <input id="update-th" name="I" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入图号！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-dw">单位</label>
+                                <input id="update-dw" name="J" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入单位！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-sl">数量</label>
+                                <input id="update-sl" name="K" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入数量！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-cz">材质</label>
+                                <input id="update-cz" name="L" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入材质！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-xhj">序合计</label>
+                                <input id="update-xhj" name="M" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入序合计！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-zl">重量</label>
+                                <input id="update-zl" name="N" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入重量！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-gj">工件</label>
+                                <input id="update-gj" name="O" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入工件！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-djgy">单价元</label>
+                                <input id="update-djgy" name="P" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入单价元！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-hjje">合计金额</label>
+                                <input id="update-hjje" name="Q" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入合计金额！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-xgs">铣工时/40</label>
+                                <input id="update-xgs" name="R" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入铣工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-xdj">铣单价</label>
+                                <input id="update-xdj" name="S" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入铣单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-cgs">车工时/40</label>
+                                <input id="update-cgs" name="T" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入车工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-cdj">车单价</label>
+                                <input id="update-cdj" name="U" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入车单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-qgs">钳工时/40</label>
+                                <input id="update-qgs" name="V" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入钳工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-qdj">钳单价</label>
+                                <input id="update-qdj" name="W" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入钳单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-zjwwgs">整件外委工时/57.6</label>
+                                <input id="update-zjwwgs" name="X" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入整件外委工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-zjwwdj">整件外委单价</label>
+                                <input id="update-zjwwdj" name="Y" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入整件外委工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-wwgs">外委工时/48</label>
+                                <input id="update-wwgs" name="Z" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入外委工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-wwdj">外委单价</label>
+                                <input id="update-wwdj" name="aa" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入外委单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-tgs">镗工时/73</label>
+                                <input id="update-tgs" name="ab" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入镗工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-tdj">镗单价</label>
+                                <input id="update-tdj" name="ac" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入镗单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-ggs">割工时/24</label>
+                                <input id="update-ggs" name="ad" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入割工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-gdj">割单价</label>
+                                <input id="update-gdj" name="ae" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入割单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-mgs">磨工时/42</label>
+                                <input id="update-mgs" name="af" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入磨工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-mdj">磨单价</label>
+                                <input id="update-mdj" name="ag" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入磨单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-skxgs">数控铣工时/69</label>
+                                <input id="update-skxgs" name="ah" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入数控铣工时！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-skxdj">数控铣单价</label>
+                                <input id="update-skxdj" name="ai" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入数控铣单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-lc">立车/71</label>
+                                <input id="update-lc" name="aj" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入立车！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-lcdj">立车单价</label>
+                                <input id="update-lcdj" name="ak" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入立车单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-dhh">电火花/42</label>
+                                <input id="update-dhh" name="al" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入电火花！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-dhhdj">电火花单价</label>
+                                <input id="update-dhhdj" name="am" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入电火花单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-zzs">中走丝/38</label>
+                                <input id="update-zzs" name="an" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入中走丝！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-zzsdj">中走丝单价</label>
+                                <input id="update-zzsdj" name="ao" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入中走丝单价！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-xl">下料</label>
+                                <input id="update-xl" name="ap" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入下料！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-skz">深孔钻</label>
+                                <input id="update-skz" name="aq" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入深孔钻！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-hcrq">回厂日期</label>
+                                <input id="update-hcrq" name="ar" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入回厂日期！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-ccrq">出厂日期</label>
+                                <input id="update-ccrq" name="ass" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入出厂日期！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-ddyqjh">订单要求交货</label>
+                                <input id="update-ddyqjh" name="at" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入订单要求交货！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-x">铣</label>
+                                <input id="update-x" name="hetongZhuangtai" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入铣！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-c">车</label>
+                                <input id="update-c" name="au" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入车！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-djy">登记员</label>
+                                <input id="update-djy" name="av" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入登记员！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-bz">备注</label>
+                                <input id="update-bz" name="aw" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入备注！
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="update-submit-btn" type="button" class="btn" style="background-color: limegreen;color: white">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    提交
+                </button>
+                <button id="update-close-btn" type="button" class="btn left-margin" style="background-color: red;color: white">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">提示</div>
+            </div>
+            <div id="delete-modal-body" class="modal-body">
+                确定删除吗？
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="delete-submit-btn" type="button" class="btn">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+                <button id="delete-close-btn" type="button" class="btn left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="background-image2 flex-container" style="margin-top: 600px">
+    <div class="info-box" style="width: 500px;margin-left: 10px">
+        <span>主办单位：左延安</span><br>
+        <!--        <span>技术专线：123456</span><br>-->
+        <span>备案/许可证编号为：xxxxxx</span>
+    </div>
+    <div class="info-box" style="width: 600px;">
+        <span>最佳使用效果：谷歌浏览器</span><br>
+        <span>联系地址：xxxxxx</span><br>
+
+    </div>
+    <div class="info-box" style="width: 300px;">
+        <img src="../img/电话.png" class="img2">12720988902<br>
+        <span>关于我们</span><img src="../img/关于我们.png" style="margin-left: 20px" class="img2">
+    </div>
+</div>
+
+</body>
+</html>

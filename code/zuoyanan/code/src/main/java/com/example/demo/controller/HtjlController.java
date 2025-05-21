@@ -90,9 +90,6 @@ public class HtjlController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResultInfo update(@RequestBody String updateJson, HttpSession session) {
         UserInfo userInfo = GsonUtil.toEntity(SessionUtil.getToken(session), UserInfo.class);
-//        if(!userInfo.getCaozuoquanxian().equals("可修改")){
-//            return ResultInfo.error(401, "无权限,请联系管理员");
-//        }
         Htjl htjl = null;
         try {
             htjl= DecodeUtil.decodeToJson(updateJson, Htjl.class);
@@ -117,9 +114,6 @@ public class HtjlController {
     public ResultInfo add(@RequestBody HashMap map, HttpSession session) {
         UserInfo userInfo = GsonUtil.toEntity(SessionUtil.getToken(session), UserInfo.class);
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
-//        if(!userInfo.getCaozuoquanxian().equals("可修改")){
-//            return ResultInfo.error(401, "无权限,请联系管理员");
-//        }
         try {
             Htjl htjl = GsonUtil.toEntity(gsonUtil.get("addInfo"), Htjl.class);
             htjl = htjlService.add(htjl);
@@ -148,7 +142,6 @@ public class HtjlController {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("计算失败：{}", e.getMessage());
-//            log.error("参数：{}", userInfo);
             return ResultInfo.error("计算失败");
         }
     }
@@ -164,9 +157,6 @@ public class HtjlController {
         UserInfo userInfo = GsonUtil.toEntity(SessionUtil.getToken(session), UserInfo.class);
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         List<Integer> idList = GsonUtil.toList(gsonUtil.get("idList"), Integer.class);
-//        if(!userInfo.getCaozuoquanxian().equals("可修改")){
-//            return ResultInfo.error(401, "无权限,请联系管理员");
-//        }
         try {
             for(int i=0; i<idList.size(); i++){
                 int this_id = idList.get(i);
@@ -180,17 +170,5 @@ public class HtjlController {
             return ResultInfo.error("删除失败");
         }
     }
-
-//    @RequestMapping("/hqxlGsm")
-//    public ResultInfo hqxlGsm() {
-//        try {
-//            List<Khzl> hqxlGsm = khzlService.hqxlGsm();
-//            return ResultInfo.success("获取成功", hqxlGsm);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            log.error("获取失败：{}", e.getMessage());
-//            return ResultInfo.error("错误!");
-//        }
-//    }
 
 }

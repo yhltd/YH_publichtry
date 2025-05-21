@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>配置</title>
+    <link rel="shortcut icon" href="#"/>
+
+    <script type="text/javascript" src="../js/Jquery.js"></script>
+    <script type="text/javascript" src="../js/jquerysession.js"></script>
+
+
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/icons/bootstrap-icons.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+
+    <!--bootstrap-table-->
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
+
+    <link rel="stylesheet" href="../css/sweetalert.css">
+    <script type="text/javascript" src="../js/sweetalert-dev.js"></script>
+
+    <link rel="stylesheet" href="../css/main.css">
+    <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript" src="../js/peizhi.js"></script>
+</head>
+<body class="pt-2">
+
+    <div class="top-toolbar row">
+        <div class="col-md-3 mb-2">
+            <input id="C" type="text" class="form-control" placeholder="工艺员" autocomplete="off">
+        </div>
+        <div class="col-md-3 mb-2">
+            <input id="D" type="text" class="form-control" placeholder="校对员" autocomplete="off">
+        </div>
+        <div class="col-md-3 mb-2">
+            <input id="E" type="text" class="form-control" placeholder="批准" autocomplete="off">
+        </div>
+        <div class="col-md-2 mb-2">
+            <button id="select-btn" class="btn" style="background-color: limegreen;color: white">
+                <i class="bi bi-search icon"></i>
+                条件查询
+            </button>
+        </div>
+    </div>
+
+    <div id="table-toolbar">
+    <div class="btn-group"  role="group ">
+        <span style="border-right: 40px solid white"></span>
+        <a href="main.html"  target="_top">
+            <button id="shouye-btn" class="btn grandient-button " style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+                首页
+            </button>
+        </a>
+        <span style="border-right: 40px solid white"></span>
+        <button id="refresh-btn" class="btn grandient1-button"  style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            刷新
+        </button>
+        <span style="border-right: 40px solid white"></span>
+        <button id="add-btn" class="btn grandient1-button" style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            新增
+        </button>
+        <span style="border-right: 40px solid white"></span>
+        <button id="update-btn" class="btn grandient1-button" style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            修改
+        </button>
+        <span style="border-right: 40px solid white"></span>
+        <button id="delete-btn" class="btn grandient1-button" style=" box-shadow:-6px 6px 10px rgba(0,0,0,0.2)">
+            删除
+        </button>
+    </div>
+</div>
+<div class="table-div border-top">
+    <table id="peizhiTable"></table>
+</div>
+
+<div id="add-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">录入</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="add-form" class="needs-validation">
+                    <div class="row justify-content-evenly">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-C">工艺员</label>
+                                <input id="add-C" name="C" type="text" class="form-control" autocomplete="off">
+                                <div class="invalid-feedback">
+                                    请输入工艺员姓名！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-D">校对员</label>
+                                <input id="add-D" name="D" type="text" class="form-control" autocomplete="off">
+                                <div class="invalid-feedback">
+                                    请输入校对员姓名！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="add-E">批准</label>
+                                <input id="add-E" name="E" type="text" class="form-control" autocomplete="off">
+                                <div class="invalid-feedback">
+                                    请输入批准员姓名！
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="add-submit-btn" type="button" class="btn" style="background-color: limegreen;color: white">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    提交
+                </button>
+                <button id="add-close-btn" type="button" class="btn left-margin" style="background-color: red;color: white">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--修改-->
+<div id="update-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">编辑</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="update-form" class="needs-validation">
+                    <div class="form-group">
+                        <input id="id" name="id" type="hidden">
+                    </div>
+
+                    <div class="row justify-content-evenly">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-C">工艺员</label>
+                                <input id="update-C" name="C" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入工艺员姓名！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-D">校对员</label>
+                                <input id="update-D" name="D" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入校对员姓名！
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="update-E">批准</label>
+                                <input id="update-E" name="E" type="text" class="form-control" autocomplete="off" data-required="1">
+                                <div class="invalid-feedback">
+                                    请输入批准员姓名！
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="update-submit-btn" type="button" class="btn" style="background-color: limegreen;color: white">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    提交
+                </button>
+                <button id="update-close-btn" type="button" class="btn left-margin" style="background-color: red;color: white">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--删除-->
+<div id="delete-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">提示</div>
+            </div>
+            <div id="delete-modal-body" class="modal-body">
+                确定删除吗？
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="delete-submit-btn" type="button" class="btn">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+                <button id="delete-close-btn" type="button" class="btn left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

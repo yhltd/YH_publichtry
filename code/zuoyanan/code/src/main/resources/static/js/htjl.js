@@ -15,17 +15,6 @@ function getList() {
                 draggingClass: "dragging",
                 resizeMode: 'fit',
             });
-            // for (i=0;i<=res.data.id;i++){
-            //     idd=i;
-            //     alert(i)
-            // }
-            // if (res.code == 200) {
-            //     // for (var i = 0; i < res.data.length; i++) {
-            //     //     // $("#add-shdw").append("<option>" + res.data[i].gsm + "</option>");
-            //     //     // $("#update-shdw").append("<option>" + res.data[i].gsm + "</option>");
-            //     //     idd=i;
-            //     // }
-            // }
 
         }
     })
@@ -45,9 +34,6 @@ function refresh(){
                 draggingClass: "dragging",
                 resizeMode: 'fit'
             });
-            // for (i=0;i<=res.data.id;i++){
-            //     idd=i;
-            // }
         }
     })
 }
@@ -191,7 +177,7 @@ $(function () {
         $('#update-hcrq').val(rows[0].data.ar);
         $('#update-ccrq').val(rows[0].data.as);
         $('#update-ddyqjh').val(rows[0].data.at);
-        $('#update-x').val(rows[0].data.hetong_zhuangtai);
+        $('#update-x').val(rows[0].data.hetongZhuangtai);
         $('#update-c').val(rows[0].data.au);
         $('#update-djy').val(rows[0].data.av);
         $('#update-bz').val(rows[0].data.aw);
@@ -234,63 +220,86 @@ $(function () {
 
     //点击删除按钮
     $('#delete-btn').click(function () {
-        var msg = confirm("确认要删除吗？");
-        if (msg) {
-            let rows = getTableSelection("#HtjlTable");
-            if (rows.length == 0) {
-                swal('请选择要删除的数据！');
-                return;
-            }
-            let idList = [];
-            $.each(rows, function (index, row) {
-                idList.push(row.data.id)
-            });
-            $ajax({
-                type: 'post',
-                url: '/htjl/delete',
-                data: JSON.stringify({
-                    idList: idList
-                }),
-                dataType: 'json',
-                contentType: 'application/json;charset=utf-8'
-            }, false, '', function (res) {
-                if (res.code == 200) {
-                    swal("", res.msg, "success");
-                    getList();
-                } else {
-                    swal("", res.msg, "error");
+        $ajax({
+            type: 'post',
+            url: '/user/getPower',
+        }, false, '', function (res) {
+            var quanxian = res.data
+            if (quanxian=="管理员"){
+                var msg = confirm("确认要删除吗？");
+                if (msg) {
+                    let rows = getTableSelection("#HtjlTable");
+                    if (rows.length == 0) {
+                        swal('请选择要删除的数据！');
+                        return;
+                    }
+                    let idList = [];
+                    $.each(rows, function (index, row) {
+                        idList.push(row.data.id)
+                    });
+                    $ajax({
+                        type: 'post',
+                        url: '/htjl/delete',
+                        data: JSON.stringify({
+                            idList: idList
+                        }),
+                        dataType: 'json',
+                        contentType: 'application/json;charset=utf-8'
+                    }, false, '', function (res) {
+                        if (res.code == 200) {
+                            swal("", res.msg, "success");
+                            getList();
+                        } else {
+                            swal("", res.msg, "error");
+                        }
+                    })
                 }
-            })
-        }
+            }else{
+                swal('无权限！');
+            }
+        })
+
     })
+    //点击删除按钮
     $('#jinshanchu-btn').click(function () {
-        var msg = confirm("确认要删除吗？");
-        if (msg) {
-            let rows = getTableSelection("#HtjlTable");
-            if (rows.length == 0) {
-                swal('请选择要删除的数据！');
-                return;
-            }
-            let idList = [];
-            $.each(rows, function (index, row) {
-                idList.push(row.data.id)
-            });
-            $ajax({
-                type: 'post',
-                url: '/htjl/delete',
-                data: JSON.stringify({
-                    idList: idList
-                }),
-                dataType: 'json',
-                contentType: 'application/json;charset=utf-8'
-            }, false, '', function (res) {
-                if (res.code == 200) {
-                    swal("", res.msg, "success");
-                } else {
-                    swal("", res.msg, "error");
+        $ajax({
+            type: 'post',
+            url: '/user/getPower',
+        }, false, '', function (res) {
+            var quanxian = res.data
+            if (quanxian=="管理员"){
+                var msg = confirm("确认要删除吗？");
+                if (msg) {
+                    let rows = getTableSelection("#HtjlTable");
+                    if (rows.length == 0) {
+                        swal('请选择要删除的数据！');
+                        return;
+                    }
+                    let idList = [];
+                    $.each(rows, function (index, row) {
+                        idList.push(row.data.id)
+                    });
+                    $ajax({
+                        type: 'post',
+                        url: '/htjl/delete',
+                        data: JSON.stringify({
+                            idList: idList
+                        }),
+                        dataType: 'json',
+                        contentType: 'application/json;charset=utf-8'
+                    }, false, '', function (res) {
+                        if (res.code == 200) {
+                            swal("", res.msg, "success");
+                        } else {
+                            swal("", res.msg, "error");
+                        }
+                    })
                 }
-            })
-        }
+            }else{
+                swal('无权限！');
+            }
+        })
+
     })
 
     $('#month-btn').click(function () {
@@ -307,9 +316,6 @@ $(function () {
                     draggingClass: "dragging",
                     resizeMode: 'fit'
                 });
-                // for (i=0;i<=res.data.id;i++){
-                //     idd=i;
-                // }
             }
         })
     });
@@ -329,36 +335,8 @@ $(function () {
                 swal("", res.msg, "error");
             }
         })
-//         var targetTitle=0;
-//         var options = $('#HtjlTable').bootstrapTable('getOptions');
-//         alert(options);
-// // 遍历columns数组查找目标列
-//         if (options && options.columns) {
-//             alert(1)
-//             options.columns.forEach(function(column) {
-//                 if (column.field === 's') {
-//                     alert(111111)
-//                     targetTitle =column.title;
-//                     return; // 找到后退出循环
-//                 }
-//             });
-//         }
-//         console.log(targetTitle); // 输出：'合同号'
-//        alert(targetTitle);
-//        // for(i=0;i<$('#'))
-//         alert(idd);
-//         var hang;
-//         for(i=0;i<=idd;i++){
-//           hang=shuju[i];
-//         }
-//         alert(hang)
     });
-
-
-
 });
-
-
 
 function setTable(data) {
     if ($('#HtjlTable').html != '') {
